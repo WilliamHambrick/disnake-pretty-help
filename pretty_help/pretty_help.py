@@ -3,15 +3,15 @@ __all__ = ["PrettyHelp"]
 from random import randint
 from typing import List, Union
 
-import discord
-from discord.ext import commands
-from discord.ext.commands.help import HelpCommand
+import disnake
+from disnake.ext import commands
+from disnake.ext.commands.help import HelpCommand
 
 from .menu import DefaultMenu
 
 
 class Paginator:
-    """A class that creates pages for Discord messages.
+    """A class that creates pages for disnake messages.
 
     Attributes
     -----------
@@ -21,7 +21,7 @@ class Paginator:
         The suffix appended at the end of every page. e.g. three backticks.
     max_size: :class:`int`
         The maximum amount of codepoints allowed in a page.
-    color: Optional[:class:`discord.Color`, :class: `int`]
+    color: Optional[:class:`disnake.Color`, :class: `int`]
         The color of the disord embed. Default is a random color for every invoke
     ending_note: Optional[:class:`str`]
         The footer in of the help embed
@@ -45,12 +45,12 @@ class Paginator:
         """Clears the paginator to have no pages."""
         self._pages = []
 
-    def _check_embed(self, embed: discord.Embed, *chars: str):
+    def _check_embed(self, embed: disnake.Embed, *chars: str):
         """
-        Check if the emebed is too big to be sent on discord
+        Check if the emebed is too big to be sent on disnake
 
         Args:
-            embed (discord.Embed): The embed to check
+            embed (disnake.Embed): The embed to check
 
         Returns:
             bool: Will return True if the emebed isn't too large
@@ -68,16 +68,16 @@ class Paginator:
             title (str): The title of the new page
 
         Returns:
-            discord.Emebed: Returns an embed with the title and color set
+            disnake.Emebed: Returns an embed with the title and color set
         """
-        return discord.Embed(title=title, description=description, color=self.color)
+        return disnake.Embed(title=title, description=description, color=self.color)
 
-    def _add_page(self, page: discord.Embed):
+    def _add_page(self, page: disnake.Embed):
         """
         Add a page to the paginator
 
         Args:
-            page (discord.Embed): The page to add
+            page (disnake.Embed): The page to add
         """
         page.set_footer(text=self.ending_note)
         self._pages.append(page)
@@ -102,13 +102,13 @@ class Paginator:
         self._add_command_fields(embed, page_title, commands_list)
 
     def _add_command_fields(
-        self, embed: discord.Embed, page_title: str, commands: List[commands.Command]
+        self, embed: disnake.Embed, page_title: str, commands: List[commands.Command]
     ):
         """
         Adds command fields to Category/Cog and Command Group pages
 
         Args:
-            embed (discord.Embed): The page to add command descriptions
+            embed (disnake.Embed): The page to add command descriptions
             page_title (str): The title of the page
             commands (List[commands.Command]): The list of commands for the fields
         """
@@ -220,7 +220,7 @@ class Paginator:
         start = 1 if not self.show_index else 0
         pages = len(self._pages) if not self.show_index else len(self._pages) - 1
         for page_no, page in enumerate(self._pages, start):
-            page: discord.Embed
+            page: disnake.Embed
             if not self.show_index or page_no != 0:
                 page.description = f"`Page: {page_no}/{pages}`\n{page.description}"
             lst.append(page)
@@ -236,7 +236,7 @@ class PrettyHelp(HelpCommand):
     Attributes
     ------------
 
-    color: :class: `discord.Color`
+    color: :class: `disnake.Color`
         The color to use for the help embeds. Default is a random color.
     dm_help: Optional[:class:`bool`]
         A tribool that indicates if the help command should DM the user instead of
@@ -266,7 +266,7 @@ class PrettyHelp(HelpCommand):
 
         self.color = options.pop(
             "color",
-            discord.Color.from_rgb(randint(0, 255), randint(0, 255), randint(0, 255)),
+            disnake.Color.from_rgb(randint(0, 255), randint(0, 255), randint(0, 255)),
         )
         self.dm_help = options.pop("dm_help", False)
         self.index_title = options.pop("index_title", "Categories")

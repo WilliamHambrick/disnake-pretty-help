@@ -3,17 +3,17 @@ Note: Rename `env.example` to `.env` and enter your token then run `poetry run t
 """
 import os
 
-from discord.ext import commands
+from disnale.ext import commands
 from pretty_help import DefaultMenu, PrettyHelp
 import dotenv
 
 dotenv.load_dotenv("./tests/.env")
 
-# ":discord:743511195197374563" is a custom discord emoji format. Adjust to match your own custom emoji.
+# ":disnake:743511195197374563" is a custom disnake emoji format. Adjust to match your own custom emoji.
 menu = DefaultMenu(
     "\U0001F44D",
     "👎",
-    ":discord:743511195197374563",
+    ":disnake:743511195197374563",
     active_time=5,
     delete_after_timeout=True,
 )

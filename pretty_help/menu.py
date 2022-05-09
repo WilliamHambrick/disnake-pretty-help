@@ -5,8 +5,8 @@ import re
 from abc import ABCMeta
 from typing import List
 
-import discord
-from discord.ext import commands
+import disnake
+from disnake.ext import commands
 
 
 class PrettyMenu(metaclass=ABCMeta):
@@ -17,8 +17,8 @@ class PrettyMenu(metaclass=ABCMeta):
     async def send_pages(
         self,
         ctx: commands.Context,
-        destination: discord.abc.Messageable,
-        pages: List[discord.Embed],
+        destination: disnake.abc.Messageable,
+        pages: List[disnake.Embed],
     ):
         """The function called by :class:`PrettyHelp` that will send pages"""
         pass
@@ -33,10 +33,10 @@ class DefaultMenu(PrettyMenu):
         - Unicode Name:: "\\N{THUMBS UP SIGN}"
 
     Using a custom emoji:
-        - Discord emoji id:: ":custom_emoji:8675309"
+        - disnake emoji id:: ":custom_emoji:8675309"
 
-    Use `\` to get the discord representation:
-        Example: '\\\:custom_emoji:' in discord
+    Use `\` to get the disnake representation:
+        Example: '\\\:custom_emoji:' in disnake
 
     Args:
         active_time: :class: `int`
@@ -103,11 +103,11 @@ class DefaultMenu(PrettyMenu):
     async def send_pages(
         self,
         ctx: commands.Context,
-        destination: discord.abc.Messageable,
-        pages: List[discord.Embed],
+        destination: disnake.abc.Messageable,
+        pages: List[disnake.Embed],
     ):
         total = len(pages)
-        message: discord.Message = await destination.send(embed=pages[0])
+        message: disnake.Message = await destination.send(embed=pages[0])
 
         if total > 1:
             bot: commands.Bot = ctx.bot
@@ -120,7 +120,7 @@ class DefaultMenu(PrettyMenu):
             while navigating:
                 try:
 
-                    def check(payload: discord.RawReactionActionEvent):
+                    def check(payload: disnake.RawReactionActionEvent):
 
                         if (
                             payload.user_id != bot.user.id
@@ -128,7 +128,7 @@ class DefaultMenu(PrettyMenu):
                         ):
                             return True
 
-                    payload: discord.RawReactionActionEvent = await bot.wait_for(
+                    payload: disnake.RawReactionActionEvent = await bot.wait_for(
                         "raw_reaction_add", timeout=self.active_time, check=check
                     )
 
@@ -146,15 +146,15 @@ class DefaultMenu(PrettyMenu):
                             return await message.delete()
                         else:
                             index += nav
-                            embed: discord.Embed = pages[index % total]
+                            embed: disnake.Embed = pages[index % total]
 
                             await message.edit(embed=embed)
 
                     try:
                         await message.remove_reaction(
-                            payload.emoji, discord.Object(id=payload.user_id)
+                            payload.emoji, disnake.Object(id=payload.user_id)
                         )
-                    except discord.errors.Forbidden:
+                    except disnake.errors.Forbidden:
                         pass
 
                 except asyncio.TimeoutError:

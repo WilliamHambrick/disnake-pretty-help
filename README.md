@@ -1,21 +1,25 @@
 ![version](https://img.shields.io/pypi/v/discord-pretty-help) ![python](https://img.shields.io/badge/python-3.6+-blue)
 
-# discord-pretty-help
+# A fork of discord-pretty-help, edited for Disnake support
 
-An embed version of the built in help command for discord.py and probably other forks of discord.py ie Nextcord, Novus, pycord, etc.
+An embed version of the built in help command for disnake. This will not work with discord.py and other forks/reworks.
 
-Inspired by the DefaultHelpCommand that discord.py uses, but revised for embeds and additional sorting on individual pages that can be "scrolled" through with reactions.
+The help command now is subclassed off the Disnake default HelpCommand ot resolve the TypeError associated with attempting to use the discord.py versions.
+
+I will try to keep this updated along side [stroupbslayen's main branch](https://github.com/stroupbslayen/discord-pretty-help) as they make changes to it. 
 
 ## Installation
 
-`pip install discord-pretty-help`
+~~`pip install discord-pretty-help`~~ I'll work to get this fork available with pip soon.
+
+Currently, the folder "pretty_help" should be placed in same directory as project entry/start file.
 
 ## Usage
 
 Example of how to use it:
 
 ```python
-from discord.ext import commands
+from disnake.ext import commands
 from pretty_help import PrettyHelp
 
 bot = commands.Bot(command_prefix="!", help_command=PrettyHelp())
@@ -74,6 +78,6 @@ the arrow embeds. The message is unresponsive after 30s of no activity, it'll re
 
 
 # Notes:
-- discord.py must already be installed to use this
+- disnake.py must already be installed to use this
 - `manage-messages` permission is recommended so reactions can be removed automatically
 
