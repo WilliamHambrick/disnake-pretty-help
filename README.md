@@ -15,7 +15,7 @@ Inspired by the DefaultHelpCommand that discord.py uses, but revised for embeds 
 Example of how to use it:
 
 ```python
-from discord.ext import commands
+from disnake.ext import commands
 from pretty_help import PrettyHelp
 
 bot = commands.Bot(command_prefix="!", help_command=PrettyHelp())
@@ -46,7 +46,7 @@ By default, the help will just pick a random color on every invoke. You can chan
 
 ```python
 
-from discord.ext import commands
+from disnake.ext import commands
 from pretty_help import DefaultMenu, PrettyHelp
 
 # ":discord:743511195197374563" is a custom discord emoji format. Adjust to match your own custom emoji.
